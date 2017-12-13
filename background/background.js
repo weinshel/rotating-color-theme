@@ -19,9 +19,9 @@ const defaultTheme = {
 
 async function onWindowCreate(window) {
 
-  let {options} = await browser.storage.local.get("options");
+  let {options} = await browser.storage.sync.get("options");
 
-  if (!options || !options.colors) {
+  if (!options || !options.colors || options.colors == []) {
     init();
   }
 
@@ -41,18 +41,18 @@ async function init() {
   // set default theme to avoid ugly flashes
   browser.theme.update(defaultTheme);
 
-  let {options} = await browser.storage.local.get("options");
+  let {options} = await browser.storage.sync.get("options");
 
   // const defaultColors = ["#EC5958", "#8BCFB7", "#83D2E6", "#C1A9D2", "#EFA02E", "#D7EACF", "#EFE564", "#69BAE8", "#F06498", "#B357A1", "#C1A9D2", "#91B0DC"];
-  const defaultColors = ["#82eaff", "#ffa373", "#a8e479", "#a37cee"]
+  const defaultColors = ["#8969AE", "#B357A1", "#83D2E6", "#EC5958", "#EFA02E", "#69BAE8", "#8BCFB7"];
 
   if (!options) {
     options = {colors: defaultColors};
-  } else if (!options.colors) {
+  } else if (!options.colors || options.colors == []) {
     options.colors = defaultColors;
   }
 
-  browser.storage.local.set({options})
+  browser.storage.sync.set({options})
 }
 
 init();

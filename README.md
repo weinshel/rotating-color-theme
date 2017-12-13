@@ -1,1 +1,1 @@
-# Browser Extension Starter
+# Rotating Color Theme

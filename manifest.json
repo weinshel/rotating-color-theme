@@ -4,11 +4,12 @@
   "version": "1.0",
   "description": "Gives every window a different color",
 
-  "icons": {
-    "48": "icons/uncommon48.png",
-    "96": "icons/uncommon96.png"
+  "applications": {
+    "gecko": {
+      "id": "randomcolortheme@weinshel.net",
+      "strict_min_version": "58.0"
+    }
   },
-
 
   "permissions": [
     "storage",

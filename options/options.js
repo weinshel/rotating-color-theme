@@ -8,13 +8,13 @@ function saveOptions(e) {
       colors: colors
   }
 
-  browser.storage.local.set({options});
+  browser.storage.sync.set({options});
 
 }
 
 async function restoreOptions() {
 
-  const {options} = await browser.storage.local.get("options");
+  const {options} = await browser.storage.sync.get("options");
   document.querySelector("#colors").value = options.colors.join(" ");
 
 }
