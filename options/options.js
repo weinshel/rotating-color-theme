@@ -1,10 +1,11 @@
 function saveOptions(e) {
   e.preventDefault();
 
-  let uselessOption = document.querySelector("#uselessOption").value;
+  let colors = document.querySelector("#colors").value;
+  colors = colors.split(" ");
 
   let options = {
-      uselessOption: uselessOption
+      colors: colors
   }
 
   browser.storage.local.set({options});
@@ -14,7 +15,7 @@ function saveOptions(e) {
 async function restoreOptions() {
 
   const {options} = await browser.storage.local.get("options");
-  document.querySelector("#uselessOption").value = options.uselessOption;
+  document.querySelector("#colors").value = options.colors.join(" ");
 
 }
 
