@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Rotating Color Theme",
-  "version": "1.0",
+  "version": "1.0.1",
   "description": "Gives every window a different color",
 
   "applications": {

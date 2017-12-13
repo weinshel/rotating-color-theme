@@ -1,20 +1,52 @@
-
-
+// light theme
 const defaultTheme = {
   images: {
     headerURL: ""
   },
   colors: {
-    accentcolor: "#252525",
-    textcolor: "#ffffff",
+    accentcolor: "#d7d7db",
+    textcolor: "#0c0c0d",
     // tab_text: "#444444",
-    toolbar: "#F9F9FA",
-    toolbar_text: "#4A4A4B",
+    toolbar: "#f9f9fa",
+    toolbar_text: "#5a5b5c",
     toolbar_field: "#ffffff",
     toolbar_field_text: "#000000",
-    toolbar_bottom_separator: "#E1E1E2",
-    toolbar_vertical_separator: "#D4D4D4"
+    toolbar_bottom_separator: "#cccccc",
+    toolbar_vertical_separator: "#d4d4d4"
   }
+}
+
+let currentColor = defaultTheme.colors.accentcolor;
+
+// default "hybrid" theme
+// using this results in blurry bookmarks bar
+// const defaultTheme = {
+//   images: {
+//     headerURL: ""
+//   },
+//   colors: {
+//     accentcolor: "#252525",
+//     textcolor: "#ffffff",
+//     // tab_text: "#444444",
+//     toolbar: "#F9F9FA",
+//     toolbar_text: "#4A4A4B",
+//     toolbar_field: "#ffffff",
+//     toolbar_field_text: "#000000",
+//     toolbar_bottom_separator: "#E1E1E2",
+//     toolbar_vertical_separator: "#D4D4D4"
+//   }
+// }
+
+function setNewRandomColor(windowId, colorsArr) {
+
+  const filtered = colorsArr.filter(x => x !== currentColor);
+  const newColor = filtered[Math.floor(Math.random()*filtered.length)];
+  currentColor = newColor;
+
+  let newTheme = Object.assign({}, defaultTheme);
+  newTheme.colors.accentcolor = newColor;
+
+  browser.theme.update(windowId, newTheme);
 }
 
 async function onWindowCreate(window) {
@@ -23,28 +55,18 @@ async function onWindowCreate(window) {
 
   if (!options || !options.colors || options.colors == []) {
     init();
+  } else {
+    setNewRandomColor(window.id, options.colors);
   }
-
-  const newColor = randomArrayElem(options.colors);
-
-  let newTheme = Object.assign({}, defaultTheme);
-  newTheme.colors.accentcolor = newColor;
-
-  console.log(newTheme);
-  
-  browser.theme.update(window.id,newTheme);
 }
 
 browser.windows.onCreated.addListener(onWindowCreate);
 
 async function init() {
-  // set default theme to avoid ugly flashes
-  browser.theme.update(defaultTheme);
 
   let {options} = await browser.storage.sync.get("options");
 
-  // const defaultColors = ["#EC5958", "#8BCFB7", "#83D2E6", "#C1A9D2", "#EFA02E", "#D7EACF", "#EFE564", "#69BAE8", "#F06498", "#B357A1", "#C1A9D2", "#91B0DC"];
-  const defaultColors = ["#8969AE", "#B357A1", "#83D2E6", "#EC5958", "#EFA02E", "#69BAE8", "#8BCFB7"];
+  const defaultColors = ["#7095B2", "#FF7775", "#BAE0FF", "#C9CC80", "#B1B28E"];
 
   if (!options) {
     options = {colors: defaultColors};
@@ -53,12 +75,10 @@ async function init() {
   }
 
   browser.storage.sync.set({options})
+
+  const window = await browser.windows.getCurrent();
+  setNewRandomColor(window.id, options.colors);
+  
 }
 
 init();
-
-// HELPER FUNCTIONS
-
-function randomArrayElem(arr) {
-  return arr[Math.floor(Math.random()*arr.length)]
-}
