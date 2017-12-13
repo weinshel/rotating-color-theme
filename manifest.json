@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Uncommon Hacks WebExtension Starter",
+  "name": "Rotating Color Theme",
   "version": "1.0",
-  "description": "",
+  "description": "Gives every window a different color",
 
   "icons": {
     "48": "icons/uncommon48.png",
@@ -11,8 +11,8 @@
 
 
   "permissions": [
-    "tabs", 
-    "storage"
+    "storage",
+    "theme"
   ],
 
   "background": {
@@ -22,27 +22,6 @@
     ]
   },
 
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "exclude_matches": ["*://*/_/chrome/newtab*"],
-      "js": [
-        "lib/browser-polyfill.min.js",
-        "content/content.js"
-      ],
-      "run_at": "document_idle", 
-      "all_frames": false
-    }
-  ],
-  
-  "browser_action": {
-    "default_icon": {
-      "19": "icons/uncommon19.png",
-      "38": "icons/uncommon38.png"
-    },
-    "default_popup": "popup/popup.html",
-    "default_title": "Popup Title"
-  },
 
   "options_ui": {
     "page": "options/options.html",
